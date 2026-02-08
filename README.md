@@ -1,14 +1,18 @@
 **Assignment Overview**
+
 This project demonstrates practical implementation of SQL JOINs and Window Functions using a veterinary clinic scenario in Rwanda. The assignment showcases database development skills for business analytics.
 
  **Business Scenario: Kigali Pet Care Veterinary Clinic**
+
 *Business Context*
+
 Clinic Name: Kigali Pet Care Veterinary Clinic
 Location: Kigali, Rwanda
 Industry: Animal Healthcare Services
 Scope: Domestic pets and livestock common in Rwanda
 
 **Data Challenge**
+
 *The clinic needs to analyze treatment patterns across different districts of Kigali to:*
 
 1.Identify most popular services by area
@@ -20,18 +24,24 @@ Scope: Domestic pets and livestock common in Rwanda
 4.Optimize resource allocation
 
 **Expected Outcomes**
+
 1.Identify top 3 treatments per district for targeted service improvement
+
 2.Analyze monthly revenue trends for financial planning
+
 3.Segment customers for loyalty program development
+
 4.Improve clinic scheduling based on demand patterns
 
  **Database Schema**
 ER Diagram
+<img width="871" height="506" alt="ERDiagram" src="https://github.com/user-attachments/assets/7356058c-3bf5-4ccd-8022-85ca02dc97bd" />
 
 Tables Description
 **1. pet_owners Table**
+
 Stores information about pet owners in Kigali:Queries of creating pet_owners table.
-CREATE TABLE pet_owners (
+  CREATE TABLE pet_owners (
     owner_id INT PRIMARY KEY,
     owner_name VARCHAR(50),
     district VARCHAR(50),
@@ -41,9 +51,10 @@ CREATE TABLE pet_owners (
 
 
 **2. animals Table**
+
 Contains details of registered animals: Queries of creating animals table
 
-CREATE TABLE animals (
+  CREATE TABLE animals (
     animal_id INT PRIMARY KEY,
     owner_id INT,
     animal_name VARCHAR(50),
@@ -53,9 +64,10 @@ CREATE TABLE animals (
 );
 
 **3. visits Table**
+
 Records all veterinary visits and treatments: Queries of creating visits table.
 
-CREATE TABLE visits (
+  CREATE TABLE visits (
     visit_id INT PRIMARY KEY,
     animal_id INT,
     visit_date DATE,
@@ -67,7 +79,9 @@ CREATE TABLE visits (
 
 
  **Implementation Details**
+
 *Success Criteria (5 Measurable Goals)*
+
 1.Top 3 treatments per district → RANK()
 2.Running monthly revenue totals → SUM() OVER()
 3.Month-over-month growth percentage → LAG()
@@ -77,6 +91,7 @@ CREATE TABLE visits (
 Part A: SQL JOINs Implementation
 **1. INNER JOIN**
 Retrieves complete visit records with owner and animal details for operational reporting.
+
 
   **Queries**
 
@@ -92,8 +107,10 @@ FROM visits v
 INNER JOIN animals a ON v.animal_id = a.animal_id
 INNER JOIN pet_owners po ON a.owner_id = po.owner_id
 ORDER BY v.visit_date;
+<img width="944" height="506" alt="Inner join" src="https://github.com/user-attachments/assets/2300cbb2-0509-49d2-b147-566d0e45c597" />
 
-2. LEFT JOIN
+
+**2. LEFT JOIN**
 Identifies registered pet owners who haven't brought animals yet, useful for marketing campaigns.
 
 **Queries**
@@ -106,7 +123,10 @@ FROM pet_owners po
 LEFT JOIN animals a ON po.owner_id = a.owner_id
 WHERE a.animal_id IS NULL;
 
-4. RIGHT JOIN
+<img width="940" height="505" alt="left join" src="https://github.com/user-attachments/assets/2a24e9b5-63a4-430f-a604-68b65786542e" />
+
+
+**4. RIGHT JOIN**
 Finds animals with no visit history to schedule preventive care reminders.
 
 **Queries**
@@ -119,6 +139,9 @@ SELECT
 FROM visits v
 RIGHT JOIN animals a ON v.animal_id = a.animal_id
 ORDER BY a.animal_name;
+
+<img width="928" height="501" alt="right join" src="https://github.com/user-attachments/assets/b83dc989-dc80-405d-99e4-3d30dd0026a4" />
+
 
 6. FULL OUTER JOIN
 Provides complete data audit showing all relationships and gaps.
@@ -133,8 +156,11 @@ FROM pet_owners po
 FULL OUTER JOIN animals a ON po.owner_id = a.owner_id
 FULL OUTER JOIN visits v ON a.animal_id = v.animal_id;
 
+<img width="896" height="467" alt="FULL OUTER JOIN" src="https://github.com/user-attachments/assets/04fbe2d8-473f-44a4-8290-b2209cf7c842" />
 
-8. SELF JOIN
+
+
+**8. SELF JOIN**
 Compares pet owners within same districts for community-based promotions.
 
 **Queries**
@@ -147,6 +173,9 @@ FROM pet_owners p1
 INNER JOIN pet_owners p2 ON p1.district = p2.district
 WHERE p1.owner_id < p2.owner_id
 ORDER BY p1.district;
+
+<img width="932" height="469" alt="SELF JOIN" src="https://github.com/user-attachments/assets/046f33c1-8b02-47a9-bce9-40193f4c5266" />
+
 
 **Part B: Window Functions Implementation**
 **Category 1: Ranking Functions**
@@ -166,6 +195,9 @@ FROM (
 )
 ORDER BY spending_rank;
 
+<img width="790" height="481" alt="RANKS" src="https://github.com/user-attachments/assets/20cb9d9a-3df5-48c9-a61e-368c038462a2" />
+
+
 
 **Category 2: Aggregate Window Functions**
 **Queries**
@@ -181,6 +213,9 @@ FROM (
 )
 ORDER BY visit_date;
 
+<img width="817" height="469" alt="SUM() OVER()" src="https://github.com/user-attachments/assets/9da1164c-c6fa-4f4e-ade5-a67008f54123" />
+
+
 
 **Category 3: Navigation Functions**
 *.Functions used: LAG(), LEAD()*
@@ -195,6 +230,9 @@ FROM (
     GROUP BY visit_date
 )
 ORDER BY visit_date;
+
+<img width="806" height="488" alt="LAG()" src="https://github.com/user-attachments/assets/be39df01-99b6-405e-b98f-32196589d560" />
+
 
 **Category 4: Distribution Functions**
 *.Functions used: NTILE()*
@@ -212,6 +250,9 @@ FROM (
 )
 ORDER BY group_number;
 
+<img width="830" height="487" alt="NTILE(4)" src="https://github.com/user-attachments/assets/c61576b0-8ee5-4876-9af2-f71e95b032df" />
+
+
 
 **Analysis Results**
 *Descriptive Analysis (What happened?)*
@@ -227,6 +268,7 @@ ORDER BY group_number;
 .Customer Distribution: 4 owners across 3 districts
 
 **Diagnostic Analysis (Why did it happen?)**
+
 1.District Performance: Gasabo's higher population density explains its dominance
 
 2.Service Popularity: Vaccination frequency reflects strong preventive care awareness
@@ -236,6 +278,7 @@ ORDER BY group_number;
 4.Timing Factors: Visit clustering suggests salary cycle influence
 
 **Prescriptive Analysis (What should be done next?)**
+
 1.Resource Allocation: Increase staff in Gasabo during peak periods
 
 2.Marketing Focus: Target Kicukiro with vaccination promotion packages
@@ -247,12 +290,17 @@ ORDER BY group_number;
 5.Preventive Care: Develop SMS reminder system for vaccinations
 
 **Technical Specifications**
+
 *Database Management System*
+
 .DBMS: Oracle Database
+
 .Tool Used: Oracle SQL Developer
+
 .SQL Version: Oracle SQL
 
 **Key Features Implemented**
+
 1. All 5 required JOIN types
 
 2. All 4 categories of window functions
@@ -266,15 +314,12 @@ ORDER BY group_number;
 6. Professional documentation
 
  **References**
-1.Oracle Corporation. Oracle Database SQL Language Reference. Oracle Help Center.
 
-2.Oracle Corporation. Oracle Database Data Warehousing Guide. Oracle Help Center.
+1.Course materials from INSY 8311: Database Development with PL/SQL
 
-3.Course materials from INSY 8311: Database Development with PL/SQL
+2.Online SQL tutorials and documentation
 
-4.Online SQL tutorials and documentation
-
-5.Rwanda-specific context from local veterinary practices
+3.Rwanda-specific context from local veterinary practices
 
  **Academic Integrity Statement**
 "All sources were properly cited. Implementations and analysis represent original work. No AI-generated content was copied without attribution or adaptation."
