@@ -48,6 +48,7 @@ Stores information about pet owners in Kigali:Queries of creating pet_owners tab
     phone_number VARCHAR(15)
 );
 
+<img width="428" height="385" alt="pet_owners table" src="https://github.com/user-attachments/assets/6225dd54-e612-4da1-9d51-3d5fbf34f4be" />
 
 
 **2. animals Table**
@@ -63,6 +64,9 @@ Contains details of registered animals: Queries of creating animals table
     FOREIGN KEY (owner_id) REFERENCES pet_owners(owner_id)
 );
 
+<img width="658" height="451" alt="animals table" src="https://github.com/user-attachments/assets/9402bc0b-5ee1-40bb-8da8-4de8377ee594" />
+
+
 **3. visits Table**
 
 Records all veterinary visits and treatments: Queries of creating visits table.
@@ -76,6 +80,7 @@ Records all veterinary visits and treatments: Queries of creating visits table.
     FOREIGN KEY (animal_id) REFERENCES animals(animal_id)
 );
 
+<img width="819" height="451" alt="visits table" src="https://github.com/user-attachments/assets/f3f44dc9-e65b-4be0-9827-e7db58d08861" />
 
 
  **Implementation Details**
@@ -89,7 +94,9 @@ Records all veterinary visits and treatments: Queries of creating visits table.
 5.Three-month moving average revenue → AVG() OVER()
 
 Part A: SQL JOINs Implementation
+
 **1. INNER JOIN**
+
 Retrieves complete visit records with owner and animal details for operational reporting.
 
 
