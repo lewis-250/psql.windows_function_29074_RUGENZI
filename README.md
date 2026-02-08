@@ -40,7 +40,10 @@ ER Diagram
 Tables Description
 **1. pet_owners Table**
 
-Stores information about pet owners in Kigali:Queries of creating pet_owners table.
+Stores information about pet owners in Kigali:
+
+**Queries of creating pet_owners table.**
+ 
   CREATE TABLE pet_owners (
     owner_id INT PRIMARY KEY,
     owner_name VARCHAR(50),
@@ -53,7 +56,9 @@ Stores information about pet owners in Kigali:Queries of creating pet_owners tab
 
 **2. animals Table**
 
-Contains details of registered animals: Queries of creating animals table
+Contains details of registered animals:
+
+**Queries of creating animals table**
 
   CREATE TABLE animals (
     animal_id INT PRIMARY KEY,
@@ -69,7 +74,9 @@ Contains details of registered animals: Queries of creating animals table
 
 **3. visits Table**
 
-Records all veterinary visits and treatments: Queries of creating visits table.
+Records all veterinary visits and treatments: 
+
+**Queries of creating visits table.**
 
   CREATE TABLE visits (
     visit_id INT PRIMARY KEY,
@@ -88,9 +95,13 @@ Records all veterinary visits and treatments: Queries of creating visits table.
 *Success Criteria (5 Measurable Goals)*
 
 1.Top 3 treatments per district → RANK()
+
 2.Running monthly revenue totals → SUM() OVER()
+
 3.Month-over-month growth percentage → LAG()
+
 4.Customer quartile segmentation → NTILE(4)
+
 5.Three-month moving average revenue → AVG() OVER()
 
 Part A: SQL JOINs Implementation
@@ -118,11 +129,12 @@ ORDER BY v.visit_date;
 
 
 **2. LEFT JOIN**
+
 Identifies registered pet owners who haven't brought animals yet, useful for marketing campaigns.
 
 **Queries**
 
-SELECT 
+  SELECT 
     po.owner_name,
     po.district,
     po.phone_number
@@ -134,11 +146,12 @@ WHERE a.animal_id IS NULL;
 
 
 **4. RIGHT JOIN**
+
 Finds animals with no visit history to schedule preventive care reminders.
 
 **Queries**
 
-SELECT 
+  SELECT 
     a.animal_name,
     a.animal_type,
     v.visit_date,
@@ -151,11 +164,12 @@ ORDER BY a.animal_name;
 
 
 6. FULL OUTER JOIN
+
 Provides complete data audit showing all relationships and gaps.
 
 **Queries**
 
-SELECT 
+  SELECT 
     po.owner_name,
     a.animal_name,
     v.visit_date
@@ -168,11 +182,12 @@ FULL OUTER JOIN visits v ON a.animal_id = v.animal_id;
 
 
 **8. SELF JOIN**
+
 Compares pet owners within same districts for community-based promotions.
 
 **Queries**
 
-SELECT 
+  SELECT 
     p1.owner_name as "Owner 1",
     p2.owner_name as "Owner 2",
     p1.district
@@ -185,11 +200,12 @@ ORDER BY p1.district;
 
 
 **Part B: Window Functions Implementation**
+
 **Category 1: Ranking Functions**
 
 **Queries**
 
-SELECT 
+  SELECT 
     owner_name,
     total_spent,
     RANK() OVER (ORDER BY total_spent DESC) as spending_rank
@@ -209,7 +225,7 @@ ORDER BY spending_rank;
 **Category 2: Aggregate Window Functions**
 **Queries**
 
-SELECT 
+  SELECT 
     visit_date,
     daily_income,
     SUM(daily_income) OVER (ORDER BY visit_date) as total_so_far
@@ -227,7 +243,7 @@ ORDER BY visit_date;
 **Category 3: Navigation Functions**
 *.Functions used: LAG(), LEAD()*
 
-SELECT 
+  SELECT 
     visit_date,
     today_income,
     LAG(today_income, 1) OVER (ORDER BY visit_date) as yesterday_income
@@ -244,7 +260,7 @@ ORDER BY visit_date;
 **Category 4: Distribution Functions**
 *.Functions used: NTILE()*
 
-SELECT 
+  SELECT 
     owner_name,
     visit_count,
     NTILE(4) OVER (ORDER BY visit_count DESC) as group_number
