@@ -24,7 +24,7 @@ Scope: Domestic pets and livestock common in Rwanda
 
  **Database Schema**
 ER Diagram
-[screenshots pl/ERDiagram.png](URL "er diagram")
+[screenshots pl/ERDiagram.png](URL "erdiagram")
 
 Tables Description
 1. pet_owners Table
