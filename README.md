@@ -24,7 +24,7 @@ Scope: Domestic pets and livestock common in Rwanda
 
  **Database Schema**
 ER Diagram
-![ER Diagram](screenshots/pl/ERDiagram.png "Click to view full size")
+
 Tables Description
 1. pet_owners Table
 Stores information about pet owners in Kigali.
